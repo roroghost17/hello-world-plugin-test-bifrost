@@ -32,8 +32,17 @@ jobs:
           GOARCH: ${{ matrix.goarch }}
           CGO_ENABLED: "0"
         run: |
-          go build -buildmode=plugin -trimpath -ldflags="-s -w" \
-            -o hello-world-plugin-linux-${{ matrix.goarch }}.so .
+          mkdir -p build
+          docker run --rm \
+            --platform linux/amd64 \
+            -v "${{ github.workspace }}:/work" \
+            -w /work \
+            -e CGO_ENABLED=1 \
+            -e GOOS=linux \
+            -e GOARCH=amd64 \
+            golang:1.26.1-bookworm \
+            sh -c "apt-get update && apt-get install -y gcc && \
+              go build -buildmode=plugin -ldflags='-w -s' -trimpath -o build/hello-world-plugin-${{ matrix.goarch }}.so main.go"
 
       - name: Upload artifact (tags only)
         if: startsWith(github.ref, 'refs/tags/v')
