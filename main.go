@@ -15,7 +15,7 @@ func Init(config any) error {
 // This is the system identifier - not editable by users
 // Users can set a custom display_name in the config for the UI
 func GetName() string {
-	return "hello-world"
+	return "hello-world-test"
 }
 
 func HTTPTransportPreHook(ctx *schemas.BifrostContext, req *schemas.HTTPRequest) (*schemas.HTTPResponse, error) {
@@ -50,22 +50,22 @@ func HTTPTransportStreamChunkHook(ctx *schemas.BifrostContext, req *schemas.HTTP
 
 func PreLLMHook(ctx *schemas.BifrostContext, req *schemas.BifrostRequest) (*schemas.BifrostRequest, *schemas.LLMPluginShortCircuit, error) {
 	value1 := ctx.Value(schemas.BifrostContextKey("hello-world-plugin-transport-pre-hook"))
-	fmt.Println("value1:", value1)
+	fmt.Println("[Test Plugin] value1:", value1)
 	ctx.SetValue(schemas.BifrostContextKey("hello-world-plugin-pre-hook"), "pre-hook-value")
-	fmt.Println("PreLLMHook called")
+	fmt.Println("[Test Plugin] PreLLMHook called")
 	return req, nil, nil
 }
 
 func PostLLMHook(ctx *schemas.BifrostContext, resp *schemas.BifrostResponse, bifrostErr *schemas.BifrostError) (*schemas.BifrostResponse, *schemas.BifrostError, error) {
-	fmt.Println("PostLLMHook called")
+	fmt.Println("[Test Plugin] PostLLMHook called")
 	value1 := ctx.Value(schemas.BifrostContextKey("hello-world-plugin-transport-pre-hook"))
-	fmt.Println("value1:", value1)
+	fmt.Println("[Test Plugin] value1:", value1)
 	value2 := ctx.Value(schemas.BifrostContextKey("hello-world-plugin-pre-hook"))
-	fmt.Println("value2:", value2)
+	fmt.Println("[Test Plugin] value2:", value2)
 	return resp, bifrostErr, nil
 }
 
 func Cleanup() error {
-	fmt.Println("Cleanup called")
+	fmt.Println("[Test Plugin] Cleanup called")
 	return nil
 }

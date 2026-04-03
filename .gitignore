@@ -1,5 +1,4 @@
 # Plugin / shared libs
-*.so
 *.dll
 *.dylib
 
@@ -8,6 +7,7 @@
 *.test
 *.out
 dist/
+build/
 
 # Dependency vendoring (if you run go vendor)
 vendor/
