@@ -1,0 +1,22 @@
+# Plugin / shared libs
+*.so
+*.dll
+*.dylib
+
+# Go build / test artifacts
+*.exe
+*.test
+*.out
+dist/
+
+# Dependency vendoring (if you run go vendor)
+vendor/
+
+# Coverage
+coverage.out
+coverage.html
+*.coverprofile
+
+# OS / editor
+.DS_Store
+.idea/
